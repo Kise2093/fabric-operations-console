@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: peer0-org1-svc #proxy.peer0.org1.example.com
+spec:
+  ports:
+    - name: "7443"
+      port: 7443
+      targetPort: 7443
+status:
+  loadBalancer: {}

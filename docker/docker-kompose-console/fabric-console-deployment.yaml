@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fabric-console
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    spec:
+      containers:
+        - env:
+            - name: CONFIGURE_FILE
+              value: ./env/config.yaml
+            - name: DB_CONNECTION_STRING
+              value: http://admin:password@console-couchdb:5984
+            - name: DB_SYSTEM
+              value: athena_system
+          image: ghcr.io/hyperledger-labs/fabric-console:latest
+          name: fabric-console
+          ports:
+            - containerPort: 3000
+          resources: {}
+          volumeMounts:
+            - mountPath: /home/athena/env
+              name: fabric-console-claim0
+      restartPolicy: Always
+      volumes:
+        - name: fabric-console-claim0
+          persistentVolumeClaim:
+            claimName: fabric-console-claim0
+status: {}

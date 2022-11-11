@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: console-couchdb
+spec:
+  ports:
+    - name: "5985"
+      port: 5985
+      targetPort: 5984
+status:
+  loadBalancer: {}

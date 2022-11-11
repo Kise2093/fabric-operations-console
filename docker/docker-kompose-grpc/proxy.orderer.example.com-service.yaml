@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: proxy.orderer.example.com
+spec:
+  ports:
+    - name: "7445"
+      port: 7445
+      targetPort: 7445
+status:
+  loadBalancer: {}

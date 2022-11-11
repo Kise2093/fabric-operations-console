@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: configtxlator
+spec:
+  replicas: 1
+  template:
+    spec:
+      containers:
+        - args:
+            - /bin/bash
+            - -c
+            - /usr/local/bin/configtxlator start --CORS=*
+          image: hyperledger/fabric-tools:2.2.3
+          name: configtxlator
+          ports:
+            - containerPort: 7059
+          resources: {}
+      restartPolicy: Always

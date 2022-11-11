@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: console-couchdb
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: console-couchdb
+  strategy:
+    type: Recreate
+  template:
+    spec:
+      containers:
+        - env:
+            - name: COUCHDB_PASSWORD
+              value: password
+            - name: COUCHDB_USER
+              value: admin
+          image: couchdb:3.1.1
+          name: console-couchdb
+          ports:
+            - containerPort: 5984
+          resources: {}
+          volumeMounts:
+            - mountPath: /opt/couchdb/data
+              name: couch-data
+      restartPolicy: Always
+      volumes:
+        - name: couch-data
+          persistentVolumeClaim:
+            claimName: couch-data
+status: {}

@@ -1,0 +1,65 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f docker/docker-kompose-grpc/docker-compose-grpc-web.yaml
+    kompose.version: 1.26.1 (a9d05d509)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: proxy-orderer-example-com
+  name: proxy-orderer-example-com
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: proxy-orderer-example-com
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -f docker/docker-kompose-grpc/docker-compose-grpc-web.yaml
+        kompose.version: 1.26.1 (a9d05d509)
+      creationTimestamp: null
+      labels:
+        io.kompose.network/dockerkomposegrpc-test: "true"
+        io.kompose.service: proxy-orderer-example-com
+    spec:
+      containers:
+        - env:
+            - name: BACKEND_ADDRESS
+              value: orderer.example.com:7050
+            - name: BACKEND_TLS
+              value: "true"
+            - name: BACKEND_TLS_CA_FILES
+              value: /certs/tls/ca.crt
+            - name: SERVER_BIND_ADDRESS
+              value: 0.0.0.0
+            - name: SERVER_HTTP_DEBUG_PORT
+              value: "8082"
+            - name: SERVER_HTTP_MAX_READ_TIMEOUT
+              value: 5m
+            - name: SERVER_HTTP_MAX_WRITE_TIMEOUT
+              value: 5m
+            - name: SERVER_HTTP_TLS_PORT
+              value: "7445"
+            - name: SERVER_TLS_CERT_FILE
+              value: /certs/tls/server.crt
+            - name: SERVER_TLS_KEY_FILE
+              value: /certs/tls/server.key
+            - name: USE_WEBSOCKETS
+              value: "true"
+          image: ghcr.io/hyperledger-labs/grpc-web:latest
+          name: proxy.orderer.example.com
+          ports:
+            - containerPort: 7445
+          resources: {}
+          volumeMounts:
+            - mountPath: /certs/tls
+              name: proxy-orderer-example-com-claim0
+      restartPolicy: Always
+      volumes:
+        - name: proxy-orderer-example-com-claim0
+          persistentVolumeClaim:
+            claimName: proxy-orderer-example-com-claim0
+status: {}

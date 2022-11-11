@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: peer0-org2-svc #proxy.peer0.org2.example.com
+spec:
+  ports:
+    - name: "7444"
+      port: 7444
+      targetPort: 7444

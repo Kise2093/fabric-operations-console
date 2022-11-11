@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: proxy-peer0-org2-example-com
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    spec:
+      containers:
+        - env:
+            - name: BACKEND_ADDRESS
+              value: peer0.org2.example.com:9051
+            - name: BACKEND_TLS
+              value: "true"
+            - name: BACKEND_TLS_CA_FILES
+              value: /certs/tls/ca.crt
+            - name: LICENSE
+              value: accept
+            - name: SERVER_BIND_ADDRESS
+              value: 0.0.0.0
+            - name: SERVER_HTTP_DEBUG_PORT
+              value: "8081"
+            - name: SERVER_HTTP_MAX_READ_TIMEOUT
+              value: 5m
+            - name: SERVER_HTTP_MAX_WRITE_TIMEOUT
+              value: 5m
+            - name: SERVER_HTTP_TLS_PORT
+              value: "7444"
+            - name: SERVER_TLS_CERT_FILE
+              value: /certs/tls/server.crt
+            - name: SERVER_TLS_KEY_FILE
+              value: /certs/tls/server.key
+            - name: USE_WEBSOCKETS
+              value: "true"
+          image: ghcr.io/hyperledger-labs/grpc-web:latest
+          name: proxy.peer0.org2.example.com
+          ports:
+            - containerPort: 7444
+          resources: {}
+          volumeMounts:
+            - mountPath: /certs/tls
+              name: proxy-peer0-org2-example-com-claim0
+      restartPolicy: Always
+      volumes:
+        - name: proxy-peer0-org2-example-com-claim0
+          persistentVolumeClaim:
+            claimName: proxy-peer0-org2-example-com-claim0
+status: {}
