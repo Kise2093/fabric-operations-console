@@ -4,9 +4,15 @@ metadata:
   name: proxy-peer0-org2-example-com
 spec:
   replicas: 1
+  selector:
+    matchLabels:
+      app: proxy-peer0-org2-example-com
   strategy:
     type: Recreate
   template:
+    metadata:
+      labels:
+        app: proxy-peer0-org2-example-com
     spec:
       containers:
         - env:
