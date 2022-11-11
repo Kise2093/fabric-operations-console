@@ -5,6 +5,8 @@ metadata:
 spec:
   accessModes:
     - ReadWriteOnce
+  storageClassName: managed-nfs-storage
+  volumeMode: Filesystem
   resources:
     requests:
       storage: 100Mi
