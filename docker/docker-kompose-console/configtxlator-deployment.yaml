@@ -8,6 +8,9 @@ spec:
     matchLabels:
       app: configtxlator
   template:
+    metadata:
+      labels:
+        app: configtxlator
     spec:
       containers:
         - args:
