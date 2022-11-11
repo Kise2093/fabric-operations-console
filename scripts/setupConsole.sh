@@ -10,8 +10,10 @@ function networkUp() {
 }
 
 function networkDown() {
-	docker-compose -f ${SRC_DIR}/../docker/docker-compose-console.yaml down
-	docker-compose -f ${SRC_DIR}/../docker/docker-compose-grpc-web.yaml down
+	#docker-compose -f ${SRC_DIR}/../docker/docker-compose-console.yaml down
+	#docker-compose -f ${SRC_DIR}/../docker/docker-compose-grpc-web.yaml down
+	oc -n blockchain delete -f ${SRC_DIR}/../docker/docker-kompose-console/.
+	oc -n blockchain delete -f ${SRC_DIR}/../docker/docker-kompose-grpc/.
 }
 
 function printHelp() {
