@@ -1,29 +1,12 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  annotations:
-    kompose.cmd: kompose convert -f docker/docker-kompose-grpc/docker-compose-grpc-web.yaml
-    kompose.version: 1.26.1 (a9d05d509)
-  creationTimestamp: null
-  labels:
-    io.kompose.service: proxy-peer0-org1-example-com
   name: proxy-peer0-org1-example-com
 spec:
   replicas: 1
-  selector:
-    matchLabels:
-      io.kompose.service: proxy-peer0-org1-example-com
   strategy:
     type: Recreate
   template:
-    metadata:
-      annotations:
-        kompose.cmd: kompose convert -f docker/docker-kompose-grpc/docker-compose-grpc-web.yaml
-        kompose.version: 1.26.1 (a9d05d509)
-      creationTimestamp: null
-      labels:
-        io.kompose.network/dockerkomposegrpc-test: "true"
-        io.kompose.service: proxy-peer0-org1-example-com
     spec:
       containers:
         - env:
@@ -50,7 +33,7 @@ spec:
             - name: USE_WEBSOCKETS
               value: "true"
           image: ghcr.io/hyperledger-labs/grpc-web:latest
-          name: proxy.peer0.org1.example.com
+          name: proxy-peer0-org1-example-com
           ports:
             - containerPort: 7443
           resources: {}

@@ -35,7 +35,7 @@ spec:
             - name: USE_WEBSOCKETS
               value: "true"
           image: ghcr.io/hyperledger-labs/grpc-web:latest
-          name: proxy.peer0.org2.example.com
+          name: proxy-peer0-org2-example-com
           ports:
             - containerPort: 7444
           resources: {}
